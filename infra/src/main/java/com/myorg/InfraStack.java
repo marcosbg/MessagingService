@@ -50,12 +50,12 @@ public class InfraStack extends Stack {
 
         CodePipeline.Builder.create(this, "Pipeline")
                 .pipelineName("MessageServicePipeline")
-                .synth(ShellStep.Builder.create("Synth")
+                .synth(ShellStep.Builder.create("SynthStep")
                         .input(CodePipelineSource.gitHub("marcosbg/MessagingService","main"))
                         .commands(List.of(
                                 "mvn clean install",
                                 "cd infra",
-                                "cdk synth"))
+                                "npx cdk synth"))
                         .build())
                 .build();
     }
