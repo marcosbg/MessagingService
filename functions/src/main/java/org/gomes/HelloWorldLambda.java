@@ -12,6 +12,6 @@ public class HelloWorldLambda implements RequestHandler<String, String>
 
     @Override
     public String handleRequest(String name, Context context) {
-        return "Hello " + name;
+        return "Hello there " + name;
     }
 }
