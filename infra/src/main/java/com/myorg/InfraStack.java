@@ -50,7 +50,7 @@ public class InfraStack extends Stack {
 
         CodePipeline.Builder.create(this, "Pipeline")
                 .pipelineName("MessageServicePipeline")
-                .synth(ShellStep.Builder.create("SynthStep")
+                .synth(ShellStep.Builder.create("Synth")
                         .input(CodePipelineSource.gitHub("marcosbg/MessagingService","main"))
                         .commands(List.of(
                                 "mvn clean install",
