@@ -1,7 +1,6 @@
 package com.myorg;
 
-import software.amazon.awscdk.Duration;
-import software.amazon.awscdk.RemovalPolicy;
+import software.amazon.awscdk.*;
 import software.amazon.awscdk.pipelines.CodePipeline;
 import software.amazon.awscdk.pipelines.CodePipelineSource;
 import software.amazon.awscdk.pipelines.ShellStep;
@@ -12,8 +11,6 @@ import software.amazon.awscdk.services.lambda.Code;
 import software.amazon.awscdk.services.lambda.Function;
 import software.amazon.awscdk.services.lambda.Runtime;
 import software.constructs.Construct;
-import software.amazon.awscdk.Stack;
-import software.amazon.awscdk.StackProps;
 
 import java.util.List;
 // import software.amazon.awscdk.Duration;
@@ -48,7 +45,7 @@ public class InfraStack extends Stack {
                 .removalPolicy(RemovalPolicy.DESTROY)
                 .build();
 
-        CodePipeline.Builder.create(this, "Pipeline")
+        CodePipeline pipeline = CodePipeline.Builder.create(this, "Pipeline")
                 .pipelineName("MessageServicePipeline")
                 .synth(ShellStep.Builder.create("Synth")
                         .input(CodePipelineSource.gitHub("marcosbg/MessagingService","main"))
@@ -59,5 +56,8 @@ public class InfraStack extends Stack {
                         .primaryOutputDirectory("infra/cdk.out")
                         .build())
                 .build();
+
+        pipeline.addStage(Stage.Builder.create(this, "dev")
+                .build());
     }
 }
