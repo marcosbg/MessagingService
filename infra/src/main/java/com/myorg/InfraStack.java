@@ -24,27 +24,6 @@ public class InfraStack extends Stack {
     public InfraStack(final Construct scope, final String id, final StackProps props) {
         super(scope, id, props);
 
-        Function.Builder.create(this, "hello-world-lambda")
-                .runtime(Runtime.JAVA_11)
-                .handler("org.gomes.HelloWorldLambda")
-                .memorySize(128)
-                .timeout(Duration.seconds(20))
-                .functionName("HelloWorldLambda")
-                .code(Code.fromAsset("../assets/function.jar"))
-                .build();
-
-        Table.Builder.create(this, "SentMessages")
-                .partitionKey(Attribute.builder()
-                        .name("sent_from")
-                        .type(AttributeType.STRING)
-                        .build())
-                .sortKey(Attribute.builder()
-                        .name("sent_to")
-                        .type(AttributeType.STRING)
-                        .build())
-                .removalPolicy(RemovalPolicy.DESTROY)
-                .build();
-
         CodePipeline pipeline = CodePipeline.Builder.create(this, "Pipeline")
                 .pipelineName("MessageServicePipeline")
                 .synth(ShellStep.Builder.create("Synth")
@@ -57,7 +36,6 @@ public class InfraStack extends Stack {
                         .build())
                 .build();
 
-        pipeline.addStage(Stage.Builder.create(this, "dev")
-                .build());
+        Stage devStage = new Stage(this, "dev", null);
     }
 }
