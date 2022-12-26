@@ -56,6 +56,7 @@ public class InfraStack extends Stack {
                                 "mvn clean install",
                                 "cd infra",
                                 "npx cdk synth"))
+                        .primaryOutputDirectory("infra/cdk.out")
                         .build())
                 .build();
     }
